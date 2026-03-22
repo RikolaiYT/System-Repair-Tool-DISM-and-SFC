@@ -1,5 +1,9 @@
 # System Repair Tool (DISM & SFC)
 
+[![Download](https://img.shields.io/badge/Download-EXE-blue?style=for-the-badge\&logo=windows)](https://github.com/RikolaiYT/System-Repair-Tool-DISM-and-SFC/releases/download/1.0.0/System.Repair.Tool.exe)
+
+---
+
 ## RU
 
 Утилита для диагностики и восстановления системы Windows с использованием встроенных инструментов DISM и SFC.
@@ -29,7 +33,7 @@
 
 ### Использование
 
-1. Скачать `.exe` из раздела Releases
+1. Скачать `.exe` (кнопка выше)
 2. Запустить
 3. Подтвердить запуск от администратора
 4. Дождаться завершения
@@ -65,7 +69,7 @@ It displays the current step, overall progress, and real-time command output.
 
 ### Usage
 
-1. Download the `.exe` from Releases
+1. Download the `.exe` (button above)
 2. Run the application
 3. Accept the UAC prompt
 4. Wait until completion
