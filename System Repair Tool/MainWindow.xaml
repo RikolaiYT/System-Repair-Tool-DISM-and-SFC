@@ -1,124 +1,222 @@
-﻿<Window x:Name="window" x:Class="SystemRepairTool.MainWindow"
+<Window x:Class="SystemRepairTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="System Repair Tool"
-        Height="600" Width="900"
-        Background="#0f0f0f"
+        Height="760"
+        Width="1180"
+        MinHeight="700"
+        MinWidth="1080"
+        Background="#101418"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True">
 
     <Window.Resources>
+        <SolidColorBrush x:Key="PanelBrush" Color="#182028"/>
+        <SolidColorBrush x:Key="PanelBorderBrush" Color="#2D3945"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#4CC2FF"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#F5F7FA"/>
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#93A4B5"/>
+
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#1f1f1f"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#333"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="Background" Value="#21303B"/>
+            <Setter Property="BorderBrush" Value="#385063"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="Margin" Value="0,0,10,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#1F6AA5"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PanelBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,14"/>
         </Style>
 
         <Style TargetType="ProgressBar">
-            <Setter Property="Background" Value="#1a1a1a"/>
-            <Setter Property="Foreground" Value="#00BFFF"/>
+            <Setter Property="Background" Value="#0F151B"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
             <Setter Property="Height" Value="18"/>
         </Style>
     </Window.Resources>
 
-    <Border Background="#151515" CornerRadius="10" Padding="15">
-        <Grid>
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <!-- Заголовок -->
-            <TextBlock Text="System Repair Tool"
-                       FontSize="20"
-                       FontWeight="SemiBold"
-                       Foreground="White"
-                       Margin="0,0,0,10"/>
-
-            <!-- Статус + чекбокс -->
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Статус: " Foreground="#888"/>
-                <TextBlock x:Name="StatusText" Text="Ожидание" Foreground="#00BFFF"/>
-
-                <CheckBox x:Name="NetworkCheck"
-                          Content="Сброс сети (DNS + Winsock)"
-                          IsChecked="True"
-                          Foreground="White"
-                          Margin="20,0,0,0"/>
+            <StackPanel>
+                <TextBlock Text="System Repair Tool"
+                           Foreground="{StaticResource TextBrush}"
+                           FontSize="24"
+                           FontWeight="SemiBold"/>
+                <TextBlock Text="Крупные режимы в главном окне, детализация в настройках"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           FontSize="13"
+                           Margin="0,4,0,0"/>
             </StackPanel>
 
-            <!-- Прогресс -->
-            <StackPanel Grid.Row="2" Margin="0,0,0,10">
-                <TextBlock x:Name="StepText"
-                           Text="Этап 0/0"
-                           Foreground="#aaa"
-                           Margin="0,0,0,5"/>
-
-                <ProgressBar x:Name="ProgressBar"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Быстрый режим" Click="QuickPresetButton_Click"/>
+                <Button Content="Полный режим" Click="FullPresetButton_Click"/>
+                <Button Content="Настройки" Click="SettingsButton_Click"/>
             </StackPanel>
-
-            <!-- Лог -->
-            <TextBox x:Name="OutputBox"
-                     Grid.Row="3"
-                     Background="#111"
-                     Foreground="#00BFFF"
-                     FontFamily="Consolas"
-                     FontSize="13"
-                     IsReadOnly="True"
-                     VerticalScrollBarVisibility="Auto"
-                     TextWrapping="Wrap"
-                     BorderThickness="0"
-                     Padding="10"/>
-
-            <!-- Кнопка -->
-            <Button x:Name="StartButton"
-                    Content="Начать"
-                    Height="35"
-                    Width="120"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Click="StartButton_Click"/>
-
-            <!-- Футер -->
-            <StackPanel Grid.Row="4"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="0,10,0,0">
-
-                <TextBlock Foreground="#777" Margin="5,0">
-                    <Hyperlink NavigateUri="https://github.com/RikolaiYT"
-                               RequestNavigate="Link_Click">
-                        GitHub
-                    </Hyperlink>
-                </TextBlock>
-
-                <TextBlock Foreground="#777" Margin="5,0">|</TextBlock>
-
-                <TextBlock Foreground="#777" Margin="5,0">
-                    <Hyperlink NavigateUri="https://t.me/rikolax"
-                               RequestNavigate="Link_Click">
-                        Telegram
-                    </Hyperlink>
-                </TextBlock>
-
-                <TextBlock Foreground="#777" Margin="5,0">|</TextBlock>
-
-                <TextBlock Foreground="#777" Margin="5,0">
-                    <Hyperlink NavigateUri="https://www.tbank.ru/cf/9KB7SGLZpie"
-                               RequestNavigate="Link_Click">
-                        Поддержать автора
-                    </Hyperlink>
-                </TextBlock>
-
-            </StackPanel>
-
         </Grid>
-    </Border>
+
+        <Border Grid.Row="1"
+                Style="{StaticResource CardStyle}"
+                Margin="0,0,0,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Статус:"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           VerticalAlignment="Center"/>
+                <TextBlock x:Name="StatusText"
+                           Grid.Column="1"
+                           Margin="10,0,0,0"
+                           Text="Ожидание"
+                           Foreground="{StaticResource AccentBrush}"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="2"
+                        x:Name="StartButton"
+                        Width="130"
+                        Content="Запустить"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Click="StartButton_Click"/>
+
+                <Button Grid.Column="3"
+                        x:Name="LaunchMinerSearchButton"
+                        Width="130"
+                        Content="MinerSearch"
+                        Click="LaunchMinerSearchButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Border Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Что запускать"
+                                       Foreground="{StaticResource TextBrush}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Text="Внутри каждого блока детали задаются в окне настроек."
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       Margin="0,6,0,14"
+                                       TextWrapping="Wrap"/>
+
+                            <CheckBox x:Name="ComputerInfoSuiteCheck" Content="Информация о компьютере"/>
+                            <CheckBox x:Name="RepairSuiteCheck" Content="Восстановление Windows"/>
+                            <CheckBox x:Name="NetworkSuiteCheck" Content="Сеть и интернет"/>
+                            <CheckBox x:Name="MaintenanceSuiteCheck" Content="Обслуживание системы"/>
+                            <CheckBox x:Name="RunMinerSearchAfterCompletionCheck" Content="Запускать MinerSearch после завершения"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Сводка режимов"
+                                       Foreground="{StaticResource TextBrush}"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock x:Name="ConfigurationSummaryText"
+                                       Margin="0,10,0,0"
+                                       Foreground="{StaticResource MutedTextBrush}"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Column="2"
+                    Style="{StaticResource CardStyle}"
+                    Margin="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="StepText"
+                               Text="Этап 0/0"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               FontSize="13"/>
+
+                    <ProgressBar x:Name="ProgressBar"
+                                 Grid.Row="1"
+                                 Margin="0,10,0,14"/>
+
+                    <TextBox x:Name="OutputBox"
+                             Grid.Row="2"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             Background="#0F151B"
+                             Foreground="#8ED8FF"
+                             FontFamily="Consolas"
+                             FontSize="13"
+                             Padding="10"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,14,0,0">
+            <TextBlock Foreground="{StaticResource MutedTextBrush}" Margin="5,0">
+                <Hyperlink NavigateUri="https://github.com/RikolaiYT" RequestNavigate="Link_Click">GitHub</Hyperlink>
+            </TextBlock>
+            <TextBlock Foreground="{StaticResource MutedTextBrush}" Margin="5,0">|</TextBlock>
+            <TextBlock Foreground="{StaticResource MutedTextBrush}" Margin="5,0">
+                <Hyperlink NavigateUri="https://t.me/rikolax" RequestNavigate="Link_Click">Telegram</Hyperlink>
+            </TextBlock>
+            <TextBlock Foreground="{StaticResource MutedTextBrush}" Margin="5,0">|</TextBlock>
+            <TextBlock Foreground="{StaticResource MutedTextBrush}" Margin="5,0">
+                <Hyperlink NavigateUri="https://www.tbank.ru/cf/9KB7SGLZpie" RequestNavigate="Link_Click">Поддержать автора</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
 </Window>

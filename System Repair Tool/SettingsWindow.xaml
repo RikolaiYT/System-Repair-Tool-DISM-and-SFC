@@ -1,0 +1,146 @@
+<Window x:Class="SystemRepairTool.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Настройки"
+        Height="720"
+        Width="760"
+        WindowStartupLocation="CenterOwner"
+        Background="#101418">
+
+    <Window.Resources>
+        <Style TargetType="Expander">
+            <Setter Property="Foreground" Value="#F5F7FA"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#F5F7FA"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="#F5F7FA"/>
+            <Setter Property="Background" Value="#0F151B"/>
+            <Setter Property="BorderBrush" Value="#2D3945"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="#F5F7FA"/>
+            <Setter Property="Background" Value="#21303B"/>
+            <Setter Property="BorderBrush" Value="#385063"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="0,0,10,10"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,14">
+            <TextBlock Text="Настройки"
+                       Foreground="#F5F7FA"
+                       FontSize="24"
+                       FontWeight="SemiBold"/>
+            <TextBlock Text="Детализация функций по разделам"
+                       Foreground="#93A4B5"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Background="#182028"
+                BorderBrush="#2D3945"
+                BorderThickness="1"
+                CornerRadius="12"
+                Padding="14">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Expander Header="Информация о компьютере" IsExpanded="True">
+                        <StackPanel Margin="0,10,0,0">
+                            <CheckBox x:Name="IncludeOsDetailsCheck" Content="ОС, версия, билд, аптайм, модель"/>
+                            <CheckBox x:Name="IncludeHardwareDetailsCheck" Content="CPU, RAM, GPU, BIOS, плата"/>
+                            <CheckBox x:Name="IncludeStorageDetailsCheck" Content="Диски, свободное место, физические накопители"/>
+                            <CheckBox x:Name="IncludeSecurityDetailsCheck" Content="Secure Boot, TPM, BitLocker, Defender"/>
+                            <CheckBox x:Name="IncludeNetworkDetailsCheck" Content="Адаптеры, IP, DNS, прокси"/>
+                            <CheckBox x:Name="IncludeEventLogDetailsCheck" Content="Критические и ошибочные события за 7 дней"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Восстановление Windows" IsExpanded="True">
+                        <StackPanel Margin="0,10,0,0">
+                            <CheckBox x:Name="IncludeCheckHealthCheck" Content="DISM /CheckHealth"/>
+                            <CheckBox x:Name="IncludeScanHealthCheck" Content="DISM /ScanHealth"/>
+                            <CheckBox x:Name="IncludeRestoreHealthCheck" Content="DISM /RestoreHealth"/>
+                            <CheckBox x:Name="IncludeSfcCheck" Content="SFC /scannow"/>
+                            <CheckBox x:Name="IncludeChkdskScanCheck" Content="CHKDSK /scan"/>
+                            <CheckBox x:Name="IncludeAnalyzeComponentStoreCheck" Content="DISM /AnalyzeComponentStore"/>
+                            <CheckBox x:Name="IncludeReagentInfoCheck" Content="Проверка WinRE"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Сеть">
+                        <StackPanel Margin="0,10,0,0">
+                            <CheckBox x:Name="IncludeFlushDnsCheck" Content="Сброс DNS-кэша"/>
+                            <CheckBox x:Name="IncludeWinsockResetCheck" Content="Сброс Winsock"/>
+                            <CheckBox x:Name="IncludeIpResetCheck" Content="Сброс TCP/IP"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Обслуживание">
+                        <StackPanel Margin="0,10,0,0">
+                            <CheckBox x:Name="IncludeStartComponentCleanupCheck" Content="Очистка component store"/>
+                            <CheckBox x:Name="IncludeWindowsUpdateResetCheck" Content="Сброс компонентов Windows Update"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Инструменты">
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Text="MinerSearch"
+                                       Foreground="#F5F7FA"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"/>
+                            <TextBlock Text="Путь к исполняемому файлу"
+                                       Foreground="#93A4B5"
+                                       Margin="0,10,0,6"/>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="MinerSearchPathBox"
+                                         Height="34"
+                                         VerticalContentAlignment="Center"
+                                         Padding="10,0"/>
+
+                                <Button Grid.Column="1"
+                                        Width="90"
+                                        Margin="10,0,0,0"
+                                        Content="Обзор"
+                                        Click="BrowseMinerSearchButton_Click"/>
+                            </Grid>
+
+                            <CheckBox x:Name="RunMinerSearchAfterRepairCheck" Content="Автоматически запускать MinerSearch после завершения"/>
+                            <CheckBox x:Name="PromptToSaveLogCheck" Content="Предлагать сохранить лог после завершения"/>
+
+                            <TextBlock Foreground="#93A4B5"
+                                       Margin="0,6,0,0"
+                                       TextWrapping="Wrap"
+                                       Text="Если путь не указан, программа попробует найти MinerSearch рядом с собой в папке Tools\MinerSearch."/>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,14,0,0">
+            <Button Content="Отмена" Width="110" Click="CancelButton_Click"/>
+            <Button Content="Сохранить" Width="110" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
