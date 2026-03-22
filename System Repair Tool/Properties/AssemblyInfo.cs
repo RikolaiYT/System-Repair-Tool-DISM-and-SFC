@@ -8,12 +8,12 @@ using System.Windows;
 // набор атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("System Repair Tool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A utility for diagnosing and repairing Windows system files using built-in DISM and SFC tools.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Rikolai")]
 [assembly: AssemblyProduct("System Repair Tool")]
 [assembly: AssemblyCopyright("Copyright ©  2026")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("SRT")]
 [assembly: AssemblyCulture("")]
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
@@ -50,3 +50,4 @@ using System.Windows;
 //
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: NeutralResourcesLanguage("en")]
