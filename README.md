@@ -1,78 +1,142 @@
-# System Repair Tool (DISM & SFC)
+# System Repair Tool (DISM, SFC & Diagnostics)
 
-[![Download](https://img.shields.io/badge/Download-EXE-blue?style=for-the-badge\&logo=windows)](https://github.com/RikolaiYT/System-Repair-Tool-DISM-and-SFC/releases/download/1.0.0/System.Repair.Tool.exe)
+[![Download](https://img.shields.io/badge/Download-EXE-blue?style=for-the-badge\&logo=windows)](https://github.com/RikolaiYT/System-Repair-Tool-DISM-and-SFC/releases/download/1.0.1/System.Repair.Tool.exe)
 
 ---
 
 ## RU
 
-Утилита для диагностики и восстановления системы Windows с использованием встроенных инструментов DISM и SFC.
+Лёгкая утилита для диагностики, восстановления и базового обслуживания Windows.
 
-### Описание
+Использует встроенные инструменты системы (DISM, SFC и др.), но делает это с нормальным UI, прогрессом и логированием.
 
-Программа последовательно выполняет:
+---
+
+### 🔧 Что делает программа
+
+Основной сценарий (Repair):
 
 * DISM /CheckHealth
 * DISM /ScanHealth
 * DISM /RestoreHealth
 * SFC /scannow
 
-Отображает текущий этап, общий прогресс выполнения и вывод команд в реальном времени.
+Дополнительно (опционально):
 
-### Возможности
+* Очистка компонентов (WinSxS)
+* Сброс сети (DNS + Winsock)
+* Сбор информации о системе (systeminfo)
 
-* Графический интерфейс (WPF)
+---
+
+### ⚙️ Возможности
+
+* Графический интерфейс (WPF, тёмная тема)
 * Автоматический запуск с правами администратора
-* Живой вывод команд без буферизации
-* Общий прогресс (0–100%)
-* Этапы выполнения (1/4)
-* Фильтрация служебного вывода DISM
-* Корректная обработка кодировок (DISM / SFC)
-* Определение возможных ошибок
-* Итоговое сводное сообщение
+* Реальный прогресс (парсинг DISM и SFC)
+* Отображение этапов выполнения
+* Живой вывод без буферизации
+* Фильтрация мусорного вывода DISM
+* Корректные кодировки (OEM / Unicode)
+* Обнаружение ошибок по выводу
+* Автоматический запуск TrustedInstaller
+* Сохранение лога в файл (UTF-8)
+* Опциональные модули (например, сброс сети)
 
-### Использование
+---
+
+### ⚠️ Важно
+
+* Сброс сети может повлиять на:
+
+  * VPN
+  * прокси
+  * кастомные DNS
+
+* Процесс может занимать 10–60 минут
+
+* Не рекомендуется прерывать выполнение
+
+* После завершения желательно перезагрузить систему
+
+---
+
+### ▶ Использование
 
 1. Скачать `.exe` (кнопка выше)
 2. Запустить
-3. Подтвердить запуск от администратора
-4. Дождаться завершения
+3. Подтвердить UAC
+4. (Опционально) отключить ненужные модули
+5. Нажать "Начать"
+6. Дождаться завершения
+7. Сохранить лог (по желанию)
 
 ---
 
 ## ENG
 
-A utility for diagnosing and repairing Windows system files using built-in DISM and SFC tools.
+A lightweight utility for diagnosing and repairing Windows using built-in tools (DISM, SFC, etc.) with a proper UI and real-time feedback.
 
-### Overview
+---
 
-The application runs the following commands in sequence:
+### 🔧 What it does
+
+Core repair pipeline:
 
 * DISM /CheckHealth
 * DISM /ScanHealth
 * DISM /RestoreHealth
 * SFC /scannow
 
-It displays the current step, overall progress, and real-time command output.
+Optional modules:
 
-### Features
+* Component cleanup (WinSxS)
+* Network reset (DNS + Winsock)
+* System information report
 
-* Graphical interface (WPF)
-* Automatic administrator elevation
-* Real-time output (no buffering)
-* Overall progress (0–100%)
-* Step tracking (1/4)
+---
+
+### ⚙️ Features
+
+* WPF GUI (dark theme)
+* Automatic admin elevation
+* Real progress tracking (DISM + SFC parsing)
+* Step-by-step execution
+* Live output (no buffering)
 * DISM output filtering
-* Proper encoding handling (DISM / SFC)
+* Proper encoding handling (OEM / Unicode)
 * Basic error detection
-* Summary after completion
+* TrustedInstaller auto-start
+* Log export (UTF-8)
+* Optional modules (e.g., network reset)
 
-### Usage
+---
 
-1. Download the `.exe` (button above)
+### ⚠️ Notes
+
+* Network reset may affect:
+
+  * VPN configurations
+  * proxy settings
+  * custom DNS
+
+* The process may take 10–60 minutes
+
+* Do not interrupt execution
+
+* Reboot is recommended after completion
+
+---
+
+### ▶ Usage
+
+1. Download the `.exe`
 2. Run the application
-3. Accept the UAC prompt
-4. Wait until completion
+3. Accept UAC prompt
+4. (Optional) disable modules
+5. Click "Start"
+6. Wait for completion
+7. Save the log if needed
 
 ---
 
@@ -86,15 +150,6 @@ It displays the current step, overall progress, and real-time command output.
 
 * Windows 10 / 11
 * .NET 6 / 7 / 8
-
----
-
-## Notes
-
-* The process may take a long time
-* Internet connection is required for RestoreHealth
-* Do not interrupt execution
-* Reboot is recommended after completion
 
 ---
 
