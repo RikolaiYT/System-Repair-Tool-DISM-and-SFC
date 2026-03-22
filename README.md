@@ -4,6 +4,13 @@
 
 ---
 
+## Screenshot
+
+![App Screenshot](screenshot.png)
+
+---
+
+
 ## RU
 
 Лёгкая утилита для диагностики, восстановления и базового обслуживания Windows.
@@ -137,12 +144,6 @@ Optional modules:
 5. Click "Start"
 6. Wait for completion
 7. Save the log if needed
-
----
-
-## Screenshot
-
-![App Screenshot](screenshot.png)
 
 ---
 
