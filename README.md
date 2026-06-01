@@ -1,166 +1,113 @@
-# System Repair Tool (DISM, SFC & Diagnostics)
+# System Repair Tool
 
-[![Download](https://img.shields.io/badge/Download-EXE-blue?style=for-the-badge\&logo=windows)](https://github.com/RikolaiYT/System-Repair-Tool-DISM-and-SFC/releases/download/1.0.1/System.Repair.Tool.exe)
+[![Download](https://img.shields.io/badge/Download-EXE-blue?style=for-the-badge&logo=windows)](https://github.com/RikolaiYT/System-Repair-Tool-DISM-and-SFC/releases)
 
----
-
-## Screenshot
+Утилита для диагностики, восстановления и базового обслуживания Windows. Программа объединяет системные инструменты Windows в одном WPF-интерфейсе: DISM, SFC, диагностику ПК, проверку журналов событий, сетевые операции, обслуживание компонентов и запуск внешних инструментов.
 
 ![App Screenshot](screenshot.png)
 
----
+## Возможности
 
+- Упрощённое главное окно с крупными режимами работы.
+- Подробные настройки по разделам в отдельном окне.
+- Сбор информации о компьютере:
+  - Windows edition, version, build, UBR;
+  - имя ПК, пользователь, аптайм, дата установки;
+  - CPU, RAM, GPU, BIOS, материнская плата;
+  - логические и физические диски;
+  - Secure Boot, TPM, BitLocker, Defender;
+  - сетевые адаптеры, IP, DNS, WinHTTP proxy;
+  - критические и ошибочные события Windows.
+- Восстановление Windows:
+  - `DISM /CheckHealth`;
+  - `DISM /ScanHealth`;
+  - `DISM /RestoreHealth`;
+  - `SFC /scannow`;
+  - `Repair-Volume -DriveLetter C -Scan`;
+  - `DISM /AnalyzeComponentStore`;
+  - `reagentc /info`.
+- Обслуживание:
+  - `DISM /StartComponentCleanup`;
+  - сброс компонентов Windows Update.
+- Сеть:
+  - очистка DNS-кэша;
+  - сброс Winsock;
+  - сброс TCP/IP.
+- Запуск MinerSearch:
+  - ручной запуск из интерфейса;
+  - автозапуск после завершения проверки;
+  - путь настраивается отдельно.
+- Живой лог выполнения.
+- Итоговая сводка по шагам.
+- Экспорт лога в UTF-8.
+- Автоматический запрос прав администратора.
 
-## RU
+## Режимы главного окна
 
-Лёгкая утилита для диагностики, восстановления и базового обслуживания Windows.
+В главном окне отображаются только крупные категории, чтобы интерфейс не был перегружен:
 
-Использует встроенные инструменты системы (DISM, SFC и др.), но делает это с нормальным UI, прогрессом и логированием.
+- Информация о компьютере
+- Восстановление Windows
+- Сеть и интернет
+- Обслуживание системы
+- Запуск MinerSearch после завершения
 
----
+Детальные чекбоксы находятся в окне `Настройки`.
 
-### 🔧 Что делает программа
+## Настройки
 
-Основной сценарий (Repair):
+В настройках доступны подразделы:
 
-* DISM /CheckHealth
-* DISM /ScanHealth
-* DISM /RestoreHealth
-* SFC /scannow
+- Информация о компьютере
+- Восстановление Windows
+- Сеть
+- Обслуживание
+- Инструменты
 
-Дополнительно (опционально):
+Там можно включать и отключать конкретные проверки, а также настроить путь к `MinerSearch`.
 
-* Очистка компонентов (WinSxS)
-* Сброс сети (DNS + Winsock)
-* Сбор информации о системе (systeminfo)
+## Использование
 
----
+1. Запустите программу.
+2. Подтвердите UAC-запрос.
+3. Выберите нужные крупные режимы в главном окне.
+4. При необходимости откройте `Настройки` и измените детализацию.
+5. Нажмите `Запустить`.
+6. Дождитесь завершения.
+7. Сохраните лог, если он нужен.
 
-### ⚙️ Возможности
+## Важные замечания
 
-* Графический интерфейс (WPF, тёмная тема)
-* Автоматический запуск с правами администратора
-* Реальный прогресс (парсинг DISM и SFC)
-* Отображение этапов выполнения
-* Живой вывод без буферизации
-* Фильтрация мусорного вывода DISM
-* Корректные кодировки (OEM / Unicode)
-* Обнаружение ошибок по выводу
-* Автоматический запуск TrustedInstaller
-* Сохранение лога в файл (UTF-8)
-* Опциональные модули (например, сброс сети)
+- Программа должна запускаться от администратора.
+- Проверка и восстановление могут занять много времени.
+- Некоторые операции могут требовать перезагрузку.
+- Сетевые сбросы могут повлиять на VPN, proxy, DNS и сетевые профили.
+- Сброс Windows Update переименовывает системные каталоги кэша обновлений.
+- `MinerSearch` не встроен в программу. Для корректного запуска укажите путь к `.exe` или положите его рядом с программой в `Tools\MinerSearch`.
 
----
+## Требования
 
-### ⚠️ Важно
+- Windows 10 / 11
+- .NET Framework 4.7.2
+- Права администратора
 
-* Сброс сети может повлиять на:
+## Что проверяется в журналах событий
 
-  * VPN
-  * прокси
-  * кастомные DNS
+Программа читает системный журнал Windows за последние 7 дней и выводит критические события и ошибки. Повторяющиеся события группируются, чтобы лог не засорялся одинаковыми строками.
 
-* Процесс может занимать 10–60 минут
+Формат:
 
-* Не рекомендуется прерывать выполнение
+```text
+[Дата] Provider | ID xxxx | Level | xN | Message
+```
 
-* После завершения желательно перезагрузить систему
+Где `xN` показывает количество повторов.
 
----
-
-### ▶ Использование
-
-1. Скачать `.exe` (кнопка выше)
-2. Запустить
-3. Подтвердить UAC
-4. (Опционально) отключить ненужные модули
-5. Нажать "Начать"
-6. Дождаться завершения
-7. Сохранить лог (по желанию)
-
----
-
-## ENG
-
-A lightweight utility for diagnosing and repairing Windows using built-in tools (DISM, SFC, etc.) with a proper UI and real-time feedback.
-
----
-
-### 🔧 What it does
-
-Core repair pipeline:
-
-* DISM /CheckHealth
-* DISM /ScanHealth
-* DISM /RestoreHealth
-* SFC /scannow
-
-Optional modules:
-
-* Component cleanup (WinSxS)
-* Network reset (DNS + Winsock)
-* System information report
-
----
-
-### ⚙️ Features
-
-* WPF GUI (dark theme)
-* Automatic admin elevation
-* Real progress tracking (DISM + SFC parsing)
-* Step-by-step execution
-* Live output (no buffering)
-* DISM output filtering
-* Proper encoding handling (OEM / Unicode)
-* Basic error detection
-* TrustedInstaller auto-start
-* Log export (UTF-8)
-* Optional modules (e.g., network reset)
-
----
-
-### ⚠️ Notes
-
-* Network reset may affect:
-
-  * VPN configurations
-  * proxy settings
-  * custom DNS
-
-* The process may take 10–60 minutes
-
-* Do not interrupt execution
-
-* Reboot is recommended after completion
-
----
-
-### ▶ Usage
-
-1. Download the `.exe`
-2. Run the application
-3. Accept UAC prompt
-4. (Optional) disable modules
-5. Click "Start"
-6. Wait for completion
-7. Save the log if needed
-
----
-
-## Requirements
-
-* Windows 10 / 11
-* .NET 6 / 7 / 8
-
----
-
-## License
+## Лицензия
 
 MIT License
 
----
+## Автор
 
-## Author
-
-Rikolai
+Rikolai  
 https://github.com/RikolaiYT
